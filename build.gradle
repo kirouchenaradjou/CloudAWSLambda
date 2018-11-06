@@ -1,0 +1,39 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+version = '0.0.1'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = 'neu.csye6225'
+
+repositories {
+    mavenCentral()
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+dependencies {
+    compile(
+            'com.amazonaws:aws-lambda-java-core:+',
+            'com.amazonaws:aws-lambda-java-events:+'
+    )
+
+    compile( group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: '1.11.297' )
+    compile( group: 'com.amazonaws', name: 'aws-java-sdk-ses', version: '1.11.297' )
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtime
+    }
+}
+
+build.dependsOn buildZip
