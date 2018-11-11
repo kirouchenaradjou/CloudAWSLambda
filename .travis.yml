@@ -8,6 +8,7 @@ install: true
 
 script:
   - pwd
+  - pip install --user awscli
 
 after_success:
   - pwd
