@@ -8,12 +8,6 @@ install: true
 
 script:
   - pwd
-  - ./gradlew war
-  - cd build/libs
-  - ls -al
-  - cd ../../..
-  - pwd
-  - ls -al
 
 after_success:
   - pwd
