@@ -13,7 +13,7 @@ after_success:
   - pwd
   - ls -al
   - mkdir lambda_artifact
-  - zip -r lambda-${TRAVIS_JOB_NUMBER}.zip /build/libs/ROOT.war
+  - zip -r lambda-${TRAVIS_JOB_NUMBER}.zip .
   - ls -al
   - mv lambda-${TRAVIS_JOB_NUMBER}.zip lambda_artifact/
   - ls -al
