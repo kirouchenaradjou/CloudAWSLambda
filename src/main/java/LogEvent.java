@@ -22,7 +22,6 @@ public class LogEvent implements RequestHandler<SNSEvent, Object> {
 
     private DynamoDB myDynamoDB;
     private Regions REGION = Regions.US_EAST_1;
-    protected static final String DYNAMODB_ENDPOINT = "";
     protected static String token;
     protected static String app_username;
     protected static String SES_FROM_ADDRESS;
@@ -52,9 +51,11 @@ public class LogEvent implements RequestHandler<SNSEvent, Object> {
         this.connectToDynamoDb(context);
         logger.log("DynamoDB client has been built.");
 
-        String DBTableName = System.getenv("DynamoDBTableName");
+        String DBTableName = "csye6225";
+                //System.getenv("DynamoDBTableName");
         logger.log( "DynamoDB table name: " + DBTableName );
-        SES_FROM_ADDRESS = System.getenv( "FromEmailAddress" );
+        SES_FROM_ADDRESS = "noreply@csye6225-fall2018-kirouchenara.me";
+                //System.getenv( "FromEmailAddress" );
 
         Table tableInstance = myDynamoDB.getTable( DBTableName );
         if( tableInstance!=null )
@@ -75,11 +76,11 @@ public class LogEvent implements RequestHandler<SNSEvent, Object> {
                                     .withString( "token", token )
                                     .withNumber( "ttl", terminatedTime ) ) );
 
-            TEXTBODY = "https://reset?email=" + app_username + "&token=" + token;
+            TEXTBODY = "https://csye6225-fall2018-kirouchenara.me/reset?email=" + app_username + "&token=" + token;
             logger.log( "This is text body: " + TEXTBODY );
             HTMLBODY = "<h3>You have successfully requested an Password Reset using Amazon SES!</h3>"
                     + "<p>Please reset the password using the below link in 20 minutes.<br/> " +
-                    "Link: https:///reset?email=" + app_username + "&token=" + token+"</p>";
+                    "Link: https://csye6225-fall2018-kirouchenara.me/reset?email=" + app_username + "&token=" + token+"</p>";
             logger.log( "This is HTML body: " + HTMLBODY );
 
             logger.log( "=================step 2==============" );
