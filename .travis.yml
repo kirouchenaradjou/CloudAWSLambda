@@ -1,0 +1,52 @@
+language: java
+jdk:
+  - oraclejdk8
+
+sudo: false
+
+install: true
+
+script:
+  - pwd
+  - ./gradlew war
+  - cd build/libs
+  - ls -al
+  - cd ../../..
+  - pwd
+  - ls -al
+  
+after_success:
+  - pwd
+  - ls -al
+  - mkdir lambda_artifact
+  - zip -r lambda-${TRAVIS_JOB_NUMBER}.zip .
+  - ls -al
+  - mv lambda-${TRAVIS_JOB_NUMBER}.zip lambda_artifact/
+  - ls -al
+  - pwd
+  - cd lambda_artifact
+  - ls -al
+  - pwd
+  - cd ..
+  - pwd
+  - ls -al
+
+  
+deploy:
+  - provider: s3
+    local_dir: lambda_artifact
+    bucket: $s3_bucket
+    region: us-east-1
+    skip_cleanup: true
+    access_key_id: $access_key_id
+    secret_access_key: $secret_access_key
+    on:
+      branch: assignment07-08
+      
+  - provider: lambda
+    function_name: "MyLambdaFunction"
+    region: "us-east-1"
+    runtime: "java8"
+    handler_name: "LogEvent::handleRequest"
+    on:
+      branch: assignment07-08
