@@ -41,6 +41,7 @@ deploy:
   - provider: lambda
     function_name: "MyLambdaFunction"
     region: "us-east-1"
+    zip: csye6225-fall2018-lambda-0.0.1.zip
     role: "arn:aws:iam::512997881451:role/TestLambdaRole"
     runtime: "java8"
     access_key_id: $access_key_id
