@@ -8,7 +8,7 @@ install: true
 
 script:
   - pwd
-  - ./gradle build
+  - gradle build
   - cd build/libs
   - ls -al
   - cd ../../..
