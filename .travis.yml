@@ -8,7 +8,6 @@ install: true
 
 script:
   - pwd
-  - cd webapp
   - ./gradlew war
   - cd build/libs
   - ls -al
