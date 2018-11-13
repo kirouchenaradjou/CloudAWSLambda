@@ -15,9 +15,8 @@ script:
 after_success:
   - pwd
   - ls -al
-  - zip -r lambda-${TRAVIS_JOB_NUMBER}.zip .
-  - ls -al
-  - mv lambda-${TRAVIS_JOB_NUMBER}.zip lambda_artifact/
+  - mkdir lambda_artifact
+  - mv csye6225-fall2018-lambda-0.0.1.zip lambda_artifact/
   - ls -al
   - pwd
   - cd lambda_artifact
