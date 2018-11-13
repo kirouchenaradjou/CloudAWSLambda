@@ -8,8 +8,14 @@ install: true
 
 script:
   - pwd
-  - pip install --user awscli
-
+  - cd webapp
+  - ./gradlew war
+  - cd build/libs
+  - ls -al
+  - cd ../../..
+  - pwd
+  - ls -al
+  
 after_success:
   - pwd
   - ls -al
@@ -21,8 +27,11 @@ after_success:
   - pwd
   - cd lambda_artifact
   - ls -al
-  - aws lambda update-function-code --function-name MyLambdaFunction --region us-east-1 --zip-file fileb://lambda-${TRAVIS_JOB_NUMBER}.zip --s3-bucket $s3_bucket
+  - pwd
+  - cd ..
+  - pwd
   - ls -al
+
   
 deploy:
   - provider: s3
@@ -32,5 +41,13 @@ deploy:
     skip_cleanup: true
     access_key_id: $access_key_id
     secret_access_key: $secret_access_key
+    on:
+      branch: assignment07-08
+      
+  - provider: lambda
+    function_name: "MyLambdaFunction"
+    region: "us-east-1"
+    runtime: "java8"
+    handler_name: "LogEvent::handleRequest"
     on:
       branch: assignment07-08
