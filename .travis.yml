@@ -21,7 +21,7 @@ after_success:
   - pwd
   - cd lambda_artifact
   - ls -al
-  - aws lambda update-function-code --function-name MyLambdaFunction --zip-file fileb://lambda-${TRAVIS_JOB_NUMBER}.zip --s3-bucket $s3_bucket
+  - aws lambda update-function-code --function-name MyLambdaFunction --region us-east-1 --zip-file fileb://lambda-${TRAVIS_JOB_NUMBER}.zip --s3-bucket $s3_bucket
   - ls -al
   
 deploy:
