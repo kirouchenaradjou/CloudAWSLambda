@@ -9,13 +9,12 @@ install: true
 script:
   - pwd
   - gradle build
-  - cd build/libs
+  - cd build/distributions
   - ls -al
   
 after_success:
   - pwd
   - ls -al
-  - mkdir lambda_artifact
   - zip -r lambda-${TRAVIS_JOB_NUMBER}.zip .
   - ls -al
   - mv lambda-${TRAVIS_JOB_NUMBER}.zip lambda_artifact/
