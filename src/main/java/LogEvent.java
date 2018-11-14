@@ -27,6 +27,7 @@ public class LogEvent implements RequestHandler<SNSEvent, Object> {
     protected static String SES_FROM_ADDRESS;
     protected static final String EMAIL_SUBJECT = "Reset Pass";
     protected static String HTMLBODY;
+    protected static String DOMAINNAME;
 
     private static String TEXTBODY;
 
@@ -51,11 +52,9 @@ public class LogEvent implements RequestHandler<SNSEvent, Object> {
         this.connectToDynamoDb(context);
         logger.log("DynamoDB client has been built.");
 
-        String DBTableName = "csye6225";
-                //System.getenv("DynamoDBTableName");
+        String DBTableName = System.getenv("DynamoDBTableName");
         logger.log( "DynamoDB table name: " + DBTableName );
-        SES_FROM_ADDRESS = "noreply@csye6225-fall2018-kirouchenara.me";
-                //System.getenv( "FromEmailAddress" );
+        SES_FROM_ADDRESS = System.getenv( "FromEmailAddress" );
 
         Table tableInstance = myDynamoDB.getTable( DBTableName );
         if( tableInstance!=null )
@@ -75,15 +74,13 @@ public class LogEvent implements RequestHandler<SNSEvent, Object> {
                                     .withString( "id", app_username)
                                     .withString( "token", token )
                                     .withNumber( "ttl", terminatedTime ) ) );
-
-            TEXTBODY = "https://csye6225-fall2018-kirouchenara.me/reset?email=" + app_username + "&token=" + token;
+            DOMAINNAME = System.getenv( "DomainName" );
+            TEXTBODY = "https://reset"+DOMAINNAME+"?email=" + app_username + "&token=" + token;
             logger.log( "This is text body: " + TEXTBODY );
             HTMLBODY = "<h3>You have successfully requested an Password Reset using Amazon SES!</h3>"
                     + "<p>Please reset the password using the below link in 20 minutes.<br/> " +
-                    "Link: https://csye6225-fall2018-kirouchenara.me/reset?email=" + app_username + "&token=" + token+"</p>";
-            logger.log( "This is HTML body: " + HTMLBODY );
+                    "Link: https://"+DOMAINNAME+"/reset?email=" + app_username + "&token=" + token+"</p>";
 
-            logger.log( "=================step 2==============" );
             try {
                 AmazonSimpleEmailService sesClient = AmazonSimpleEmailServiceClientBuilder.standard()
                         .withRegion( REGION ).build();
