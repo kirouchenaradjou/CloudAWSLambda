@@ -8,7 +8,7 @@ install: true
 
 script:
   - pwd
-  - gradle build
+  - gradle build -PFromEmailAddress=$from_email -PDynamoDBTableName=$dynamo_table -PDomainName=$domain_name
   - cd build/distributions
   - ls -al
   
@@ -35,17 +35,5 @@ deploy:
     skip_cleanup: true
     access_key_id: $access_key_id
     secret_access_key: $secret_access_key
-    on:
-      branch: assignment07-08
-      
-  - provider: lambda
-    function_name: "MyLambdaFunction"
-    region: "us-east-1"
-    zip: "lambda_artifact/csye6225-fall2018-lambda-0.0.1.zip"
-    role: "arn:aws:iam::512997881451:role/TestLambdaRole"
-    runtime: "java8"
-    access_key_id: $access_key_id
-    secret_access_key: $secret_access_key
-    handler_name: "LogEvent::handleRequest"
     on:
       branch: assignment07-08
