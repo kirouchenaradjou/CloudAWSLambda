@@ -8,7 +8,7 @@ install: true
 
 script:
   - pwd
-  - gradle build -DFromEmailAddress=$from_email -DDynamoDBTableName=$dynamo_table -DDomainName=$domain_name
+  - gradle build
   - cd build/distributions
   - ls -al
   
